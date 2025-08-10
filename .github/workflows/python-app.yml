@@ -45,4 +45,4 @@ jobs:
           BETEL_SECRET_ACCESS_TOKEN: ${{ secrets.BETEL_SECRET_ACCESS_TOKEN }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
-        run: python meu_script.py
+        run: python app.py
