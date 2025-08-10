@@ -10,7 +10,7 @@ on:
   schedule:
     # Roda todo dia às 08:00 UTC (05:00 no horário de Brasília)
     # Use o formato cron. '0 8 * * *' significa: minuto 0, hora 8, todo dia, todo mês, todo dia da semana.
-    - cron: '23 15 * * *'
+    - cron: '26 16 * * *'
 
 # Tarefas (Jobs) a serem executadas
 jobs:
