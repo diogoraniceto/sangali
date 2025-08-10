@@ -1,0 +1,48 @@
+# Nome do seu workflow. Aparecerá na aba "Actions".
+name: Rodar Script de Vendas Diariamente
+
+# Gatilho (Trigger): o que faz o workflow rodar.
+on:
+  # Permite que você rode este workflow manualmente pela aba Actions
+  workflow_dispatch:
+
+  # Agenda a execução (schedule)
+  schedule:
+    # Roda todo dia às 08:00 UTC (05:00 no horário de Brasília)
+    # Use o formato cron. '0 8 * * *' significa: minuto 0, hora 8, todo dia, todo mês, todo dia da semana.
+    - cron: '0 8 * * *'
+
+# Tarefas (Jobs) a serem executadas
+jobs:
+  # Nome da tarefa
+  build-and-run:
+    # O tipo de máquina virtual para rodar a tarefa
+    runs-on: ubuntu-latest
+
+    # Passos (Steps) que compõem a tarefa
+    steps:
+      # 1. Baixa o código do seu repositório para a máquina virtual
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Configura o ambiente Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10' # Você pode usar a versão do Python que preferir
+
+      # 3. Instala as dependências do seu script
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # 4. Roda o seu script Python
+      - name: Run the sales script
+        # Passa os secrets do GitHub como variáveis de ambiente para o script
+        env:
+          BETEL_ACCESS_TOKEN: ${{ secrets.BETEL_ACCESS_TOKEN }}
+          BETEL_SECRET_ACCESS_TOKEN: ${{ secrets.BETEL_SECRET_ACCESS_TOKEN }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_KEY: ${{ secrets.SUPABASE_KEY }}
+        run: python meu_script.py
